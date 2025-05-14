@@ -16,35 +16,35 @@ def init_app(app):
         return render_template('login.html')
     
     @app.route('/cadastro', methods=['GET', 'POST'])
-        def caduser():
-            if request.method == 'POST':
-                name = request.form.get('name')
-                eMail = request.form.get('eMail')
-                password = request.form.get('password')
+    def caduser():
+        if request.method == 'POST':
+            name = request.form.get('name')
+            eMail = request.form.get('eMail')
+            password = request.form.get('password')
 
-                teacher_data = json.dumps({
-                    "name": name,
-                    "eMail": eMail,
-                    "password": password
-                })
+            teacher_data = json.dumps({
+                'name': name,
+                'eMail': eMail,
+                'password': password
+            })
 
-                req = urllib.request.Request(
-                    url='http://127.0.0.1:5000/teachers',
-                    data=teacher_data.encode('utf-8'),
-                    headers={'Content-Type': 'application/json'},
-                    method='POST'
-                )
+            req = urllib.request.Request(
+                url='http://127.0.0.1:5000/teachers',
+                data=teacher_data.encode('utf-8'),
+                headers={'Content-Type': 'application/json'},
+                method='POST'
+            )
 
-                try:
-                    with urllib.request.urlopen(req) as resp:
-                        if resp.status == 201:
-                            return redirect(url_for('login'))
-                except Exception as e:
-                    print('Erro ao cadastrar o professor:', e)
+            try:
+                with urllib.request.urlopen(req) as resp:
+                    if resp.status == 201:
+                        return redirect(url_for('login'))
+            except Exception as e:
+                print('Erro ao cadastrar o professor:', e)
 
-                return redirect(url_for('caduser'))
+            return redirect(url_for('caduser'))
 
-            return render_template('cadUser.html')
+        return render_template('cadUser.html')
     @app.route('/graphics')
     def graphics():
         return render_template('graphic.html')
